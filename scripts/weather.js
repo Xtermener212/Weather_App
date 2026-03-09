@@ -1,3 +1,4 @@
+// DOM VARIABLES
 const cityInput = document.querySelector('.js-cityInput');
 const searchBtn = document.querySelector('.js-searchBtn');
 
@@ -14,8 +15,10 @@ const windSpeedTxt = document.querySelector('.wind-speed-txt');
 const weatherSummaryImg = document.querySelector('.weather-summary-img');
 const forecastItemContainer = document.querySelector('.forecast-items-container');
 
+// OPENWEATHERAPI API KEY
 const apiKey = 'cd31475b98ca6c0461f6c12f5ef93f2d';
 
+//ADDING ONCLICK AND ENTER KEYDOWN FUNCTIONALITY TO INPUT BOX AND BUTTON
 searchBtn.addEventListener('click', () => {
     if(cityInput.value.trim() != ''){
         updateWeatherInfo(cityInput.value);
@@ -31,6 +34,7 @@ cityInput.addEventListener('keydown', (event) => {
     }
 });
 
+//FETCHING THE OPENWEATHERAPI 
 async function getFetchData(endPoint, city){
     const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`;
 
@@ -39,6 +43,7 @@ async function getFetchData(endPoint, city){
     return response.json();
 }
 
+//SETTING RULES FOR CHANGING WEATHER ICONS
 function getWeatherIcon(id){
     console.log(id);
     if (id <= 232) return 'thunderstorm.svg'
@@ -50,6 +55,7 @@ function getWeatherIcon(id){
     else return 'clouds.svg'
 }
 
+//GETTING THE CURRENT DATE
 function getCurrentDate(){
     const currentDate = new Date();
     const options = {
@@ -60,6 +66,7 @@ function getCurrentDate(){
     return currentDate.toLocaleDateString('en-GB', options);
 }
 
+//UPDATING WEATHER INFO ACCORDING TO REALTIME WEATHER INFORMATION
 async function updateWeatherInfo(city){
     const weatherData = await getFetchData('weather', city);
 
@@ -91,6 +98,7 @@ async function updateWeatherInfo(city){
     showDisplaySection(weatherInfoSection);
 }
 
+//UPDATING FORECASTS INFO FETCHING FORECAST INFORMATION WITH CITY AND AVOID CURRENT DATE
 async function updateForecastsInfo(city){
     const forecastsData = await getFetchData('forecast', city);
 
@@ -107,8 +115,8 @@ async function updateForecastsInfo(city){
     })
 }
 
+//UPDATING FORECAST ITEMS ADDING DATE, WEATHER ICON, TEMP IN REALTIME WHILE GENERATING HTML FOR EACH FORECASTITEM CLASSED DIV
 function updateForecastItems(weatherData) {
-    console.log(weatherData)
     const {
         dt_txt: date,
         weather: [{ id }],
@@ -135,7 +143,7 @@ function updateForecastItems(weatherData) {
 }
 
 
-
+//THIS FUNCTION HANDLES DISPLAYING 3 SECTIONS WHEN NEEDED
 function showDisplaySection(section){
     const sections = 
         [
